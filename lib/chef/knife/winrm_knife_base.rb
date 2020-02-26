@@ -25,11 +25,11 @@ class Chef
     module WinrmCommandSharedFunctions
 
       FAILED_BASIC_HINT ||= "Hint: Please check winrm configuration 'winrm get winrm/config/service' AllowUnencrypted flag on remote server.".freeze
-      FAILED_NOT_BASIC_HINT ||= <<-eos.gsub /^\s+/, ""
+      FAILED_NOT_BASIC_HINT ||= <<-EOS.gsub /^\s+/, ""
         Hint: Make sure to prefix domain usernames with the correct domain name.
         Hint: Local user names should be prefixed with computer name or IP address.
         EXAMPLE: my_domain\\user_namer
-      eos
+      EOS
 
       def self.included(includer)
         includer.class_eval do
@@ -69,18 +69,18 @@ class Chef
 
           def resolve_target_nodes
             @list = case config[:manual]
-                   when true
-                     @name_args[0].split(" ")
-                   when false
-                     r = []
-                     q = Chef::Search::Query.new
-                     @action_nodes = q.search(:node, @name_args[0])[0]
-                     @action_nodes.each do |item|
-                       i = extract_nested_value(item, config[:attribute])
-                       r.push(i) unless i.nil?
-                     end
-                     r
-                   end
+                    when true
+                      @name_args[0].split(" ")
+                    when false
+                      r = []
+                      q = Chef::Search::Query.new
+                      @action_nodes = q.search(:node, @name_args[0])[0]
+                      @action_nodes.each do |item|
+                        i = extract_nested_value(item, config[:attribute])
+                        r.push(i) unless i.nil?
+                      end
+                      r
+                    end
 
             if @list.length == 0
               if @action_nodes.length == 0
@@ -91,7 +91,7 @@ class Chef
                          "Try setting another attribute to open the connection using --attribute.")
               end
               exit 10
-           end
+            end
           end
 
           # TODO: Copied from Knife::Core:GenericPresenter. Should be extracted
@@ -312,9 +312,8 @@ class Chef
                 ```
                 * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * *
               WARN
-                end
-              end
-
+            end
+          end
         end
       end
     end
