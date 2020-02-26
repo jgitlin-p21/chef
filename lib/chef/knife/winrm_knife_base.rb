@@ -19,7 +19,6 @@
 require_relative "../knife"
 require_relative "winrm_base"
 require_relative "winrm_shared_options"
-require_relative "knife_windows_base"
 
 class Chef
   class Knife
@@ -39,7 +38,13 @@ class Chef
 
           include Chef::Knife::WinrmBase
           include Chef::Knife::WinrmSharedOptions
-          include Chef::Knife::KnifeWindowsBase
+
+          def locate_config_value(key)
+            key = key.to_sym
+            value = config[key] || Chef::Config[:knife][key] || default_config[key]
+            Chef::Log.debug("Looking for key #{key} and found value #{value}")
+            value
+          end
 
           def validate_winrm_options!
             winrm_auth_protocol = locate_config_value(:winrm_authentication_protocol)
